@@ -1,0 +1,19 @@
+{
+  "name": "MuseumBot",
+  "version": "1.0.0",
+  "description": "TG Museum Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "DasAnonas",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "^3.2.0",
+    "mongoose": "^5.9.16",
+    "nodemon": "^2.0.4",
+    "telegraf": "^3.38.0"
+  },
+  "devDependencies": {}
+}
