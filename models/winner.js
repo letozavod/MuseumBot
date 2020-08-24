@@ -1,21 +1,31 @@
 const { Schema, model } = require('mongoose')
 
 const winner = new Schema({
-  questid: {
-    type: Schema.Types.ObjectId,
-    ref: 'Quest'
-  },
   userid: {
     type: String,
     required: true
   },
-  coupon: {
+  username: {
     type: String,
     required: true
   },
-  isactive: {
-      type: Boolean,
-      default: true
+
+  lvl: {
+    type: Number,
+    required: true,
+    default: 1
+  },
+xp: {
+    type: Number,
+    required: true,
+    default: 0
   },
     })
+
+    winner.methods.nextLvl = function () {
+
+      nextlvlxp=100*(2**(this.lvl-1))
+
+    return nextlvlxp
+};
 module.exports = model('Winner', winner)

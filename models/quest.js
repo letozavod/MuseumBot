@@ -16,6 +16,10 @@ const quest = new Schema({
     islinear: {
         type: Boolean,
         default: false
+    },
+    quest_end: {
+        type: String,
+        required: false,
     }
-    })
+})
 module.exports = model('Quest', quest)

@@ -25,11 +25,38 @@ const question = new Schema({
         type: String,
         required: false
     },
-    question_pic: {
+    vr_link: {
         type: String,
         required: false
     },
-    answer_pic: {
+    correct_score: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    wrong_score: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    hint_score: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    image: {
+        type: Buffer,
+        required: false
+    },
+    image_name: {
+        type: String,
+        required: false
+    },
+    ans_image: {
+        type: Buffer,
+        required: false
+    },
+    ans_image_name: {
         type: String,
         required: false
     }
