@@ -262,7 +262,7 @@ menuScene.action('level', async ctx=>{
   }
   })
   workflowScene.action('quit', ctx => {
-    ctx.reply('Вы уверены, что хотите выйти в главное меню?. Для подтверждения, веедите команду /exit')
+    ctx.reply('Вы уверены, что хотите выйти в главное меню?. Для подтверждения, введите команду /exit')
   })
   workflowScene.action('hint', async ctx =>  {
     const userId = ctx.callbackQuery.from.id
