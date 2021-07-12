@@ -157,9 +157,10 @@ menuScene.action('level', async ctx=>{
   //main menu quest list and keyboard build
   menuScene.enter(async ctx =>  {
     var quests = await getquests()
-    const keyboard = new Keyboard(kboptions)
+    // const keyboard = new Keyboard(kboptions)
+    const array_keyboard = []
     quests.forEach(function(item) {
-      keyboard.add(item.quest_name + ':' + item.quest_name)
+      array_keyboard.push([Key.callback(item.quest_name, item.quest_name)])
       menuScene.action(item.quest_name, async (ctx) => {
         const userId = ctx.callbackQuery.from.id
         if (!state[userId]) state[userId] = {
@@ -174,13 +175,14 @@ menuScene.action('level', async ctx=>{
         await ctx.reply('Введите /begin для начала игры или /back для возвращения в меню')
       })
     })
-    keyboard.add('🏆 Статистика:level')
-    keyboard.add('❓ Описание игры:help')
-    keyboard.add('💰 Призы:prize')
-    keyboard.add('⚙️ Настройки:settings')
-    keyboard.add('📣 Обратная связь:contact')
-    keyboard.add('💻 О приложении:about')
-    ctx.reply('Добро пожаловать! Выберите игру из списка! Если в используете для игры VR-тур, активируйте данный режим в меню "Настройки"', keyboard.draw())
+    array_keyboard.push([Key.callback("🏆 Статистика", "level")])
+    array_keyboard.push([Key.callback("❓ Описание игры", "help")])
+    array_keyboard.push([Key.callback("💰 Призы", "prize")])
+    array_keyboard.push([Key.callback("⚙️ Настройки", "settings")])
+    array_keyboard.push([Key.callback("📣 Обратная связь", "contact")])
+    array_keyboard.push([Key.callback("💻 О приложении", "about")])
+
+    ctx.reply('Добро пожаловать! Выберите игру из списка! Если в используете для игры VR-тур, активируйте данный режим в меню "Настройки"', Keyboard.make(array_keyboard).inline())
   })
 
 //workflow
