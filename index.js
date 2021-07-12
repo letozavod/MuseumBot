@@ -5,7 +5,7 @@ const Markup = require('telegraf/markup')
 const Stage = require('telegraf/stage')
 const Scene = require('telegraf/scenes/base')
 const session = require('telegraf/session')
-const Keyboard = require('telegraf-keyboard')
+const Keyboard = require('telegram-keyboard')
 const sorter = require('./sorter.js')
 
 const {
@@ -28,7 +28,7 @@ const Winner = require('./models/winner')
 const Coupon = require('./models/coupon')
 
 //tokens
-const bot = new Telegraf('1117448183:AAHvua7sZVTHrjz2Aq7zEpZAH6oamR24jUc')
+const bot = new Telegraf(process.env.BOT_TOKEN)
 const mongo = "mongodb+srv://admin:1913b7cd@museumbot-bebcr.mongodb.net/test?retryWrites=true&w=majority"
 
 //strings
