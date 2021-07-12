@@ -5,7 +5,7 @@ const Markup = require('telegraf/markup')
 const Stage = require('telegraf/stage')
 const Scene = require('telegraf/scenes/base')
 const session = require('telegraf/session')
-const Keyboard = require('telegram-keyboard')
+const { Keyboard, Key } = require('telegram-keyboard')
 const sorter = require('./sorter.js')
 
 const {
@@ -17,10 +17,23 @@ const kboptions = {
     duplicates: true,
     newline: true
   }
-const kbexit = new Keyboard(kboptions)
-kbexit.add('❌ Выйти:quit')
-const kbhint = new Keyboard(kboptions)
-kbhint.add('❓ Подсказка:hint')
+
+const mainMenuKeyboard = Keyboard.make([
+    ['Main menu', 'Inline Menu'],
+    ['Help'],
+]).reply()
+
+// const kbexit = new Keyboard(kboptions)
+// kbexit.add('❌ Выйти:quit')
+const kbexit = Keyboard.make([
+  [Key.callback('❌ Выйти', 'quit')],
+]).inline()
+// const kbhint = new Keyboard(kboptions)
+// kbhint.add('❓ Подсказка:hint')
+
+const kbhint = Keyboard.make([
+  [Key.callback('❓ Подсказка', 'hint')],
+]).inline()
 //models
 const Quest = require('./models/quest')
 const Question = require('./models/question')
@@ -29,7 +42,7 @@ const Coupon = require('./models/coupon')
 
 //tokens
 const bot = new Telegraf(process.env.BOT_TOKEN)
-const mongo = "mongodb+srv://admin:1913b7cd@museumbot-bebcr.mongodb.net/test?retryWrites=true&w=majority"
+const mongo = "mongodb+srv://drunk:"+ process.env.MONGO +"@cluster0.bosaa.mongodb.net/museum?retryWrites=true&w=majority"
 
 //strings
 const wrongAnswer = ['К сожалению, ответ неверный. Попробуй еще раз.', 'Ты на верном пути, попробуй еще раз 😉', 'Эх, неверный ответ 😒. Давай еще раз', 'Попытка не пытка, но к сожалению неудачная 🙃', 'Не совсем так, подумай еще немного 🧐']
@@ -78,10 +91,14 @@ async function bothandlers() {
   let state = {}
 
 
-const ismuseumkb = new Keyboard(kboptions)
-ismuseumkb.add('🏛 Я в музее:inmuseum')
-ismuseumkb.add('🖥 Я использую VR-тур:invr')
+// const ismuseumkb = new Keyboard(kboptions)
+// ismuseumkb.add('🏛 Я в музее:inmuseum')
+// ismuseumkb.add('🖥 Я использую VR-тур:invr')
 
+const ismuseumkb = Keyboard.make([
+  [Key.callback('🏛 Я в музее', 'inmuseum')],
+  [Key.callback('🖥 Я использую VR-тур', 'invr')],
+]).inline()
 
 //main menu actions
 const menuScene = new Scene('menu')
@@ -98,7 +115,7 @@ menuScene.action('contact', ctx => {
   ctx.reply('Для того, чтобы оставить отзыв о работе проекта или сообщить об ошибке, свяжитесь с нами в @JARM_official')
   })
 menuScene.action('settings', ctx => {
-    ctx.reply('Изменить мое местоположение:', ismuseumkb.draw())
+    ctx.reply('Изменить мое местоположение:', ismuseumkb)
   })
 menuScene.action('inmuseum', ctx=>{
       const userId = ctx.callbackQuery.from.id
@@ -177,9 +194,9 @@ menuScene.action('level', async ctx=>{
     }
     if (state[userId].isvr && state[userId].questions[0].vr_link) {
       await ctx.reply(state[userId].questions[0].question_text)
-      await ctx.reply('Данный экспонат в VR-туре музея: '+state[userId].questions[0].vr_link, kbexit.draw())
+      await ctx.reply('Данный экспонат в VR-туре музея: '+state[userId].questions[0].vr_link, kbexit)
     } else {
-      await ctx.reply(state[userId].questions[0].question_text, kbexit.draw())
+      await ctx.reply(state[userId].questions[0].question_text, kbexit)
     }
 
   })
@@ -232,9 +249,9 @@ menuScene.action('level', async ctx=>{
         await ctx.reply(state[userId].questions[state[userId].question].answer_output)
         if (state[userId].question == (state[userId].questions.length-1)){
           if (state[userId].win_msg) {
-          await ctx.reply(state[userId].win_msg, kbexit.draw())
+          await ctx.reply(state[userId].win_msg, kbexit)
         } else {
-          await ctx.reply(winnerMessage, kbexit.draw())
+          await ctx.reply(winnerMessage, kbexit)
         }
           state[userId].question +=1
         } else {
@@ -245,16 +262,16 @@ menuScene.action('level', async ctx=>{
         }
         if (state[userId].isvr && state[userId].questions[state[userId].question].vr_link) {
           await ctx.reply(state[userId].questions[state[userId].question].question_text)
-          await ctx.reply('Данный экспонат в VR-туре музея: '+state[userId].questions[state[userId].question].vr_link, kbexit.draw())
+          await ctx.reply('Данный экспонат в VR-туре музея: '+state[userId].questions[state[userId].question].vr_link, kbexit)
         } else {
-          await ctx.reply(state[userId].questions[state[userId].question].question_text, kbexit.draw())
+          await ctx.reply(state[userId].questions[state[userId].question].question_text, kbexit)
         }
       }
       } else {
-        await ctx.reply(wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)], kbexit.draw())
+        await ctx.reply(wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)], kbexit)
         state[userId].score += state[userId].questions[state[userId].question].wrong_score
         if (state[userId].questions[state[userId].question].hint){
-        await ctx.reply('Слишком сложный вопрос? Используйте подсказку! Однако учтите, что использование подсказки отнимет баллы...', kbhint.draw())
+        await ctx.reply('Слишком сложный вопрос? Используйте подсказку! Однако учтите, что использование подсказки отнимет баллы...', kbhint)
           console.log(state[userId].questions[state[userId].question].hint)
       }
       }
