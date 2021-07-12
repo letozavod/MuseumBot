@@ -15,7 +15,7 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.4",
     "telegraf": "^3.38.0",
-    "telegraf-keyboard": "^1.1.2"
+    "telegram-keyboard": "2.2.6"
   },
   "devDependencies": {}
 }
