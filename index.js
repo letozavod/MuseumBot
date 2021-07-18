@@ -42,7 +42,7 @@ const Coupon = require('./models/coupon')
 
 //tokens
 const bot = new Telegraf(process.env.BOT_TOKEN)
-const mongo = "mongodb+srv://drunk:"+ process.env.MONGO +"@cluster0.bosaa.mongodb.net/museum?retryWrites=true&w=majority"
+const mongo = "mongodb+srv://drunk:"+ process.env.MONGO +"@cluster0.v4wnw.mongodb.net/museum?retryWrites=true&w=majority"
 
 //strings
 const wrongAnswer = ['К сожалению, ответ неверный. Попробуй еще раз.', 'Ты на верном пути, попробуй еще раз 😉', 'Эх, неверный ответ 😒. Давай еще раз', 'Попытка не пытка, но к сожалению неудачная 🙃', 'Не совсем так, подумай еще немного 🧐']
